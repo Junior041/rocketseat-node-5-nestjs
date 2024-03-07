@@ -11,7 +11,7 @@ interface DeleteAnswerCommentUseCaseRequest {
 type DeleteAnswerCommentUseCaseResponse = Either<
   ResourceNotFoundError | NotAllowedError,
   // eslint-disable-next-line @typescript-eslint/ban-types
-  {}
+null
 >
 
 export class DeleteAnswerCommentUseCase {
@@ -35,6 +35,6 @@ export class DeleteAnswerCommentUseCase {
 
 		await this.answerCommentsRepository.delete(answerComment);
 
-		return right({});
+		return right(null);
 	}
 }
