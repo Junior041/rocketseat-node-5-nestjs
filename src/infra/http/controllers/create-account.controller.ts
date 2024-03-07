@@ -3,7 +3,7 @@ import { Body, ConflictException, Controller, HttpCode, Post, UsePipes } from "@
 import { hash } from "bcryptjs";
 import { z } from "zod";
 import { ZodValidationPipe } from "../pipes/zod-validation-pipe";
-import { PrismaService } from "../../prisma/prisma.service";
+import { PrismaService } from "../../database/prisma/prisma.service";
 
 
 const createAccountBodySchema = z.object({
