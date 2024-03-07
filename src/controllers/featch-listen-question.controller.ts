@@ -24,7 +24,7 @@ export class FetchListenQuestionController {
 	async handle(
 		@Query("page", queryValidationPipe) page: PageQueryParamSchema
 	) {
-		const perPage = 1;
+		const perPage = 20;
 
 		const questions = await this.prisma.question.findMany({
 			orderBy: {
