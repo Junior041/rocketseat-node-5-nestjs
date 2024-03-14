@@ -51,7 +51,6 @@ export class PrismaQuestionsRepository implements QuestionsRepository{
 		});
 	}
 	async save(question: Question): Promise<void> {
-
 		const data = PrismaQuestionMapper.toPrisma(question);
 		
 		await this.prisma.question.update({
@@ -61,8 +60,14 @@ export class PrismaQuestionsRepository implements QuestionsRepository{
 			data
 		});
 	}
-	delete(question: Question): Promise<void> {
-		throw new Error("Method not implemented.");
+	async delete(question: Question): Promise<void> {
+		const data = PrismaQuestionMapper.toPrisma(question);
+		
+		await this.prisma.question.delete({
+			where: {
+				id: data.id
+			},
+		});
 	}
 
 }
