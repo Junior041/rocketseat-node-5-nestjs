@@ -7,14 +7,14 @@ import { QuestionAttachmentList } from "./question-attachment-list";
 import { QuestionBestAnswerChosenEvent } from "@/domain/forum/enterprise/events/question-best-answer-chosen-event";
 
 export interface QuestionProps {
-  authorId: UniqueEntityID
-  bestAnswerId?: UniqueEntityID
-  title: string
-  content: string
-  slug: Slug
-  attachments: QuestionAttachmentList
-  createdAt: Date
-  updatedAt?: Date | null
+  authorId: UniqueEntityID;
+  bestAnswerId?: UniqueEntityID | null;
+  title: string;
+  content: string;
+  slug: Slug;
+  attachments: QuestionAttachmentList;
+  createdAt: Date;
+  updatedAt?: Date | null;
 }
 
 export class Question extends AggregateRoot<QuestionProps> {
@@ -79,12 +79,12 @@ export class Question extends AggregateRoot<QuestionProps> {
 		this.touch();
 	}
 
-	set bestAnswerId(bestAnswerId: UniqueEntityID | undefined) {
-		if (bestAnswerId === undefined) {
+	set bestAnswerId(bestAnswerId: UniqueEntityID | undefined | null) {
+		if (bestAnswerId === undefined || bestAnswerId === null) {
 			return;
 		}
 
-		if (this.props.bestAnswerId === undefined || !bestAnswerId.equals(this.props.bestAnswerId)) {
+		if (this.props.bestAnswerId === undefined || this.props.bestAnswerId === null || !bestAnswerId.equals(this.props.bestAnswerId)) {
 			this.addDomainEvent(new QuestionBestAnswerChosenEvent(this, bestAnswerId));
 		}
 
@@ -93,10 +93,7 @@ export class Question extends AggregateRoot<QuestionProps> {
 		this.touch();
 	}
 
-	static create(
-		props: Optional<QuestionProps, "createdAt" | "slug" | "attachments">,
-		id?: UniqueEntityID,
-	) {
+	static create(props: Optional<QuestionProps, "createdAt" | "slug" | "attachments">, id?: UniqueEntityID) {
 		const question = new Question(
 			{
 				...props,
@@ -104,7 +101,7 @@ export class Question extends AggregateRoot<QuestionProps> {
 				attachments: props.attachments ?? new QuestionAttachmentList(),
 				createdAt: props.createdAt ?? new Date(),
 			},
-			id,
+			id
 		);
 
 		return question;
