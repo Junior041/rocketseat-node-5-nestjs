@@ -26,4 +26,4 @@ import { HashGenerator } from '@/domain/notification/application/cryptography/ha
 		HashGenerator,
 	]
 })
-export class cryptographyModule{}
+export class CryptographyModule{}
