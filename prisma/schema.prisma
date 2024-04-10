@@ -71,9 +71,9 @@ model Comment {
   questionId String    @map("question_id")
   answerId   String    @map("answer_id")
 
-  author   User     @relation(fields: [authorId], references: [id])
-  question Question @relation(fields: [questionId], references: [id])
-  answer   Answer   @relation(fields: [answerId], references: [id])
+  author   User      @relation(fields: [authorId], references: [id])
+  question Question? @relation(fields: [questionId], references: [id])
+  answer   Answer?   @relation(fields: [answerId], references: [id])
 
   @@map("comments")
 }
