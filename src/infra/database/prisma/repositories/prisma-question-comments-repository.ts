@@ -6,48 +6,56 @@ import { PrismaService } from '../prisma.service';
 import { PrismaQuestionCommentMapper } from '../mappers/prisma-question-comment-mapper';
 
 @Injectable()
-export class PrismaQuestionCommentsRepository implements QuestionCommentsRepository{
-
-	constructor(private prisma: PrismaService){}
-
+export class PrismaQuestionCommentsRepository
+implements QuestionCommentsRepository
+{
+	constructor(private prisma: PrismaService) {}
 
 	async findById(id: string): Promise<QuestionComment | null> {
-		const qeustionComment = await this.prisma.comment.findUnique({
+		const questionComment = await this.prisma.comment.findUnique({
 			where: {
-				id
-			}
+				id,
+			},
 		});
-		if (!qeustionComment) {
+
+		if (!questionComment) {
 			return null;
 		}
-		return PrismaQuestionCommentMapper.toDomain(qeustionComment);
+
+		return PrismaQuestionCommentMapper.toDomain(questionComment);
 	}
-	async findManyByQuestionId(questionId: string, {page}: PaginationParams): Promise<QuestionComment[]> {
-		const quetionComment = await this.prisma.comment.findMany({
-			orderBy: {
-				createdAt: 'desc'
-			},
+
+	async findManyByQuestionId(
+		questionId: string,
+		{ page }: PaginationParams,
+	): Promise<QuestionComment[]> {
+		const questionComments = await this.prisma.comment.findMany({
 			where: {
-				id: questionId
+				questionId,
+			},
+			orderBy: {
+				createdAt: 'desc',
 			},
 			take: 20,
-			skip: (page - 1) * 20
+			skip: (page - 1) * 20,
 		});
-		return quetionComment.map(PrismaQuestionCommentMapper.toDomain);
+
+		return questionComments.map(PrismaQuestionCommentMapper.toDomain);
 	}
+
 	async create(questionComment: QuestionComment): Promise<void> {
 		const data = PrismaQuestionCommentMapper.toPrisma(questionComment);
-		
+
 		await this.prisma.comment.create({
-			data
+			data,
 		});
 	}
+
 	async delete(questionComment: QuestionComment): Promise<void> {
 		await this.prisma.comment.delete({
 			where: {
-				id: questionComment.id.toString()
+				id: questionComment.id.toString(),
 			},
 		});
 	}
-    
 }
