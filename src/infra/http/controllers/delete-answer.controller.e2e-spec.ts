@@ -48,7 +48,7 @@ describe('Delete answer (E2E)', () => {
 			}
 		);
 
-		const answer = await answerFactory.makePrismaAnswerComment({
+		const answer = await answerFactory.makePrismaAnswer({
 			authorId: user.id,
 			questionId: question.id,
 		});
