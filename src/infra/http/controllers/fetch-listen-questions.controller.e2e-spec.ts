@@ -50,7 +50,10 @@ describe('Fetch listen questions (E2E)', () => {
 
 		expect(response.status).toBe(200);
 		expect(response.body).toEqual({
-			questions: expect.arrayContaining([expect.objectContaining({ title: 'Question 1' }), expect.objectContaining({ title: 'Question 2' })]),
+			questions: expect.arrayContaining([
+				expect.objectContaining({ title: 'Question 1' }),
+				expect.objectContaining({ title: 'Question 2' })
+			]),
 		});
 	});
 });
