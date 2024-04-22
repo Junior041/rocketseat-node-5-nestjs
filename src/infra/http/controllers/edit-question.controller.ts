@@ -10,6 +10,7 @@ import { EditQuestionUseCase } from '@/domain/forum/application/use-cases/edit-q
 const editQuestionBodySchema = z.object({
 	title: z.string(),
 	content: z.string(),
+	attathcments: z.array(z.string()),
 });
 
 type EditQuestionBodySchema = z.infer<typeof editQuestionBodySchema>;
@@ -30,9 +31,9 @@ export class EditQuestionController {
         @Body(bodyValidationType) body: EditQuestionBodySchema, 
 	) {
 
-		const { title, content } = body;
+		const { title, content, attathcments} = body;
 		const { sub } = user;
-		const result = await this.editQuestion.execute({ questionId,title, content, authorId: sub, attachmentsIds: []});
+		const result = await this.editQuestion.execute({ questionId,title, content, authorId: sub, attachmentsIds: attathcments});
 		if (result.isLeft()) {
 			throw new BadRequestException();
 		}
