@@ -30,7 +30,6 @@ describe('Authenticate Student', () => {
 			email: 'any_email@gmail.com',
 			password:'any_password'
 		});
-		console.log(result);
         
 		expect(result.isRight()).toBeTruthy();
 		expect(result.value).toEqual({
